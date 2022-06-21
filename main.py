@@ -1,19 +1,13 @@
-import pandas as pd
+from bs4 import BeautifulSoup
+import requests
+import unicodedata
 
 # webpage url
+url = 'https://www.ensenachile.cl/testimonios/'
+page = requests.get(url)
+soup = BeautifulSoup(page.content, 'html.parser')
 
-url = 'https://en.wikipedia.org/wiki/History_of_Python'
-
-# extraer tables 
-
-dfs = pd.read_html(url) ##data frames, mátriz con datos que posee sus propios métodos
-
-# obtener la prima tabla
-
-df = dfs[0]
-
-# obtener las columnas
-
-columns = df['Version']
-
-print(columns)
+# Encontrar todos los div que tienen class 'item-hito'
+divs = soup.find_all('div', {'class':['col-md-6']})
+for div in divs:
+    print(div)
